@@ -15,13 +15,20 @@ import java.util.List;
  * 时间：2015/11/16   20:54
  * <p/>
  * 描述：
- * <p/>
+ * <p/>     新闻页签详情ViewPager适配器
  * ==============================
  */
 public class MenuDetailAdapter extends PagerAdapter {
     private List<TabDetailPager> tabDetailPagers;
     public MenuDetailAdapter(List<TabDetailPager> tabDetailPagers) {
         this.tabDetailPagers=tabDetailPagers;
+    }
+    /**
+     * 重写此方法,返回页面标题,用于viewpagerIndicator的页签显示
+     */
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return tabDetailPagers.get(position).newsTabData.getTitle();
     }
 
     @Override

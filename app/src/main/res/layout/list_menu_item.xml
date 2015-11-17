@@ -14,5 +14,6 @@
         android:textSize="25sp"
         android:enabled="false"
         android:drawablePadding="5dp"
+        android:layout_marginLeft="20dp"
         android:textColor="@drawable/btn_menu_text_selector" />
 </LinearLayout>
