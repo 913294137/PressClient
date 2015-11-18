@@ -1,6 +1,7 @@
 package com.sumu.pressclient.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 import com.lidroid.xutils.BitmapUtils;
 import com.sumu.pressclient.R;
 import com.sumu.pressclient.bean.TabNewsData;
+import com.sumu.pressclient.utils.SharedPreferencesUtil;
 
 import java.util.List;
 
@@ -68,6 +70,13 @@ public class NewsAdapter extends BaseAdapter {
         bitmapUtils.display(viewHolder.ivPic, tabNewsData.getListimage());
         viewHolder.tvTitle.setText(tabNewsData.getTitle());
         viewHolder.tvTime.setText(tabNewsData.getPubdate());
+        String ids = SharedPreferencesUtil.getString(context, "ids", "");
+        System.out.println("----idsAdapter------>" + ids);
+        if (ids.contains(tabNewsData.getId()+",")){//如果该新闻被点击过，则将标题改为灰色
+            viewHolder.tvTitle.setTextColor(Color.GRAY);
+        }else {
+            viewHolder.tvTitle.setTextColor(Color.BLACK);
+        }
         return convertView;
     }
 

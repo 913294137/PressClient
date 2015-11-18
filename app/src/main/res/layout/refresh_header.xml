@@ -21,6 +21,8 @@
             android:id="@+id/tv_list_header_progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:visibility="invisible"
+            android:indeterminateDrawable="@drawable/listview_refresh_progress"
             android:layout_gravity="center" />
     </FrameLayout>
 
@@ -45,8 +47,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="2015-03-10 17:01:01"
+            android:text="最后刷新时间:2015-03-10 17:01:01"
             android:textColor="@android:color/darker_gray"
-            android:textSize="20sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 </LinearLayout>

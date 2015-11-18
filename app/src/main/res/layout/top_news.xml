@@ -30,6 +30,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginRight="5dp"
+            android:paddingLeft="5dp"
             app:fillColor="@android:color/holo_red_light"
             app:pageColor="@android:color/darker_gray"
             app:radius="4dp"

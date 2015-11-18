@@ -26,4 +26,15 @@ public class SharedPreferencesUtil {
         SharedPreferences preferences = context.getSharedPreferences(SHAREDPREFERENCES_NAME, Context.MODE_APPEND);
         preferences.edit().putBoolean(key, value).commit();
     }
+
+    public static String getString(Context context,String key,String defaultValue){
+        SharedPreferences preferences = context.getSharedPreferences(SHAREDPREFERENCES_NAME, Context.MODE_APPEND);
+        return preferences.getString(key, defaultValue);
+    }
+
+    public static void putString(Context context, String key, String value) {
+        SharedPreferences preferences = context.getSharedPreferences(SHAREDPREFERENCES_NAME, Context.MODE_APPEND);
+        preferences.edit().putString(key, value).commit();
+    }
+
 }
