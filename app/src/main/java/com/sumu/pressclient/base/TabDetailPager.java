@@ -65,10 +65,12 @@ public class TabDetailPager extends BaseMenuDetailPager {
     private String url;
     private String moreUrl;
     private Handler mHandler;
+    private boolean isFirst=true;//是否是第一次加载，以防轮播条自动滑动速度叠加
 
     public TabDetailPager(Activity activity, NewsTabData newsTabData) {
         super(activity);
         this.newsTabData = newsTabData;
+
     }
 
     @Override
@@ -103,16 +105,14 @@ public class TabDetailPager extends BaseMenuDetailPager {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String ids = SharedPreferencesUtil.getString(mActivity, "ids", "");
-                String newIds=tabNewsDatas.get(position).getId()+",";
-                System.out.println("ids------>"+ids);
-                System.out.println("newIds------>" + newIds);
-                if (!ids.contains(newIds)){
-                    SharedPreferencesUtil.putString(mActivity,"ids",ids+newIds);//记录被点击的新闻id
-                    TextView tvTitle= (TextView) view.findViewById(R.id.tv_title);
+                String newIds = tabNewsDatas.get(position).getId() + ",";
+                if (!ids.contains(newIds)) {
+                    SharedPreferencesUtil.putString(mActivity, "ids", ids + newIds);//记录被点击的新闻id
+                    TextView tvTitle = (TextView) view.findViewById(R.id.tv_title);
                     tvTitle.setTextColor(Color.GRAY);//被点击后刷新局部字体颜色
                 }
-                Intent intent=new Intent(mActivity, MewsDetailActivity.class);
-                intent.putExtra("url",tabNewsDatas.get(position).getUrl());
+                Intent intent = new Intent(mActivity, MewsDetailActivity.class);
+                intent.putExtra("url", Contants.SERVER_URL + tabNewsDatas.get(position).getUrl());
                 mActivity.startActivity(intent);
             }
         });
@@ -124,10 +124,14 @@ public class TabDetailPager extends BaseMenuDetailPager {
         url = Contants.SERVER_URL + newsTabData.getUrl();
         String result=CacehUtils.getCache(mActivity,url,"");
         if (!TextUtils.isEmpty(result)){
-            parseData(result,true);
+            parseData(result, true);
             System.out.println("-----读取缓存数据------>");
         }
         getDataFromServer();
+        if (isFirst){
+            isFirst=false;
+            roundBar();
+        }
     }
 
     /**
@@ -169,10 +173,10 @@ public class TabDetailPager extends BaseMenuDetailPager {
         httpUtils.send(HttpRequest.HttpMethod.GET, url, new RequestCallBack<String>() {
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
-                parseData(responseInfo.result,true);
+                parseData(responseInfo.result, true);
                 lvNewsDetails.onRefreshComplete(true);
                 //将数据进行缓存
-                CacehUtils.setCache(mActivity, url,responseInfo.result);
+                CacehUtils.setCache(mActivity, url, responseInfo.result);
             }
 
             @Override
@@ -211,7 +215,6 @@ public class TabDetailPager extends BaseMenuDetailPager {
                 topIndicator.setSnap(true);// 支持快照显示
                 topIndicator.onPageSelected(0);// 让指示器重新定位到第一个点
             }
-            roundBar();
         }else {
             tabNewsDatas.addAll(newsDetailData.getNews());
             newsAdapter.notifyDataSetChanged();
@@ -254,6 +257,6 @@ public class TabDetailPager extends BaseMenuDetailPager {
                 }
             };
         }
-        mHandler.sendEmptyMessageDelayed(0,1000);
+        mHandler.sendEmptyMessageDelayed(0,3000);
     }
 }

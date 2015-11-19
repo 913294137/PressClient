@@ -43,6 +43,7 @@ public class PhotoMenuDetailPager extends BaseMenuDetailPager {
     private ImageButton ibChangeList;
     private PhotosAdapter photosAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private String url;
 
     public PhotoMenuDetailPager(Activity activity, ImageButton ibPhoto) {
         super(activity);
@@ -64,8 +65,9 @@ public class PhotoMenuDetailPager extends BaseMenuDetailPager {
 
     @Override
     public void initData() {
+        url = Contants.PHOTOS_URL;
         //读取缓存
-        String cache = CacehUtils.getCache(mActivity, "photos", "");
+        String cache = CacehUtils.getCache(mActivity, url, "");
         if (!TextUtils.isEmpty(cache)) {
             parseData(cache);
         }
@@ -76,7 +78,6 @@ public class PhotoMenuDetailPager extends BaseMenuDetailPager {
      * 从网络获取数据
      */
     private void getDataFormServer() {
-        final String url = Contants.PHOTOS_URL;
         HttpUtils httpUtils = new HttpUtils();
         httpUtils.send(HttpRequest.HttpMethod.GET, url, new RequestCallBack<String>() {
             @Override

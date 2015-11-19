@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lidroid.xutils.BitmapUtils;
+import com.sumu.pressclient.Contants;
 import com.sumu.pressclient.R;
 import com.sumu.pressclient.bean.TabNewsData;
 import com.sumu.pressclient.utils.SharedPreferencesUtil;
@@ -67,7 +68,7 @@ public class NewsAdapter extends BaseAdapter {
             viewHolder = (ViewHolder) convertView.getTag();
         }
         TabNewsData tabNewsData = (TabNewsData) getItem(position);
-        bitmapUtils.display(viewHolder.ivPic, tabNewsData.getListimage());
+        bitmapUtils.display(viewHolder.ivPic, Contants.SERVER_URL +tabNewsData.getListimage());
         viewHolder.tvTitle.setText(tabNewsData.getTitle());
         viewHolder.tvTime.setText(tabNewsData.getPubdate());
         String ids = SharedPreferencesUtil.getString(context, "ids", "");

@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.lidroid.xutils.BitmapUtils;
+import com.sumu.pressclient.Contants;
 import com.sumu.pressclient.R;
 import com.sumu.pressclient.bean.PhotoInfo;
 
@@ -47,7 +48,7 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
     public void onBindViewHolder(PhotosAdapter.ViewHolder holder, int position) {
         PhotoInfo photoInfo=photosInfos.get(position);
         holder.tvTitle.setText(photoInfo.getTitle());
-        bitmapUtils.display(holder.ivPic,photoInfo.getListimage());
+        bitmapUtils.display(holder.ivPic, Contants.SERVER_URL +photoInfo.getListimage());
     }
 
     @Override
