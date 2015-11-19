@@ -26,6 +26,7 @@ public class BasePager {
     public TextView baseTitle;
     public ImageButton baseMenu;
     public FrameLayout baseContent;
+    public ImageButton ibPhoto;
 
     public BasePager(Activity activity) {
         mActivity = activity;
@@ -40,6 +41,7 @@ public class BasePager {
         baseTitle = (TextView) baseView.findViewById(R.id.base_title);
         baseMenu = (ImageButton) baseView.findViewById(R.id.base_menu);
         baseContent= (FrameLayout) baseView.findViewById(R.id.base_content);
+        ibPhoto = (ImageButton) baseView.findViewById(R.id.ib_photo);
     }
 
     /**

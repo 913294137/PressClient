@@ -100,7 +100,7 @@ public class NewsCenterPager extends BasePager {
         baseMenuDetailPagers = new ArrayList<>();
         baseMenuDetailPagers.add(new NewsMenuDetailPager(mActivity, newsData.getData().get(0).getChildren()));
         baseMenuDetailPagers.add(new TopicMenuDetailPager(mActivity));
-        baseMenuDetailPagers.add(new PhotoMenuDetailPager(mActivity));
+        baseMenuDetailPagers.add(new PhotoMenuDetailPager(mActivity, ibPhoto));
         baseMenuDetailPagers.add(new InteractMenuDetailPager(mActivity));
         setCurrentMenuDetailPager(0);// 设置菜单详情页-新闻为默认当前页
     }
@@ -113,7 +113,18 @@ public class NewsCenterPager extends BasePager {
         baseContent.removeAllViews();// 清除之前的布局
         baseContent.addView(baseMenuDetailPager.mRootView);// 将菜单详情页的布局设置给帧布局
         baseTitle.setText(newsData.getData().get(position).getTitle());//设置标题
-
         baseMenuDetailPager.initData();// 初始化当前页面的数据
+        showOrHide(position);
+    }
+
+    /**
+     * 显示或者隐藏组图界面切换视图布局按钮
+     */
+    private void showOrHide(int position) {
+        if (position == 2) {
+            ibPhoto.setVisibility(View.VISIBLE);
+        } else {
+            ibPhoto.setVisibility(View.INVISIBLE);
+        }
     }
 }

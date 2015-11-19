@@ -3,6 +3,8 @@ package com.sumu.pressclient.base;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.view.View;
@@ -62,6 +64,7 @@ public class TabDetailPager extends BaseMenuDetailPager {
     private NewsDetailData newsDetailData;
     private String url;
     private String moreUrl;
+    private Handler mHandler;
 
     public TabDetailPager(Activity activity, NewsTabData newsTabData) {
         super(activity);
@@ -208,6 +211,7 @@ public class TabDetailPager extends BaseMenuDetailPager {
                 topIndicator.setSnap(true);// 支持快照显示
                 topIndicator.onPageSelected(0);// 让指示器重新定位到第一个点
             }
+            roundBar();
         }else {
             tabNewsDatas.addAll(newsDetailData.getNews());
             newsAdapter.notifyDataSetChanged();
@@ -229,5 +233,27 @@ public class TabDetailPager extends BaseMenuDetailPager {
 
             }
         });
+    }
+
+    /**
+     *  自动轮播条显示
+     */
+    private void roundBar() {
+        if (mHandler==null){
+            mHandler=new Handler(){
+                @Override
+                public void handleMessage(Message msg) {
+                    int currentItem = vpTopNews.getCurrentItem();
+                    if (currentItem!=(topNewsDatas.size()-1)){
+                        currentItem++;
+                    }else {
+                        currentItem=0;
+                    }
+                    vpTopNews.setCurrentItem(currentItem);
+                    mHandler.sendEmptyMessageDelayed(0,3000);
+                }
+            };
+        }
+        mHandler.sendEmptyMessageDelayed(0,1000);
     }
 }

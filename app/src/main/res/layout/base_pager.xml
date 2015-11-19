@@ -26,6 +26,17 @@
             android:text="标题"
             android:textColor="@android:color/white"
             android:textSize="20sp" />
+
+        <ImageButton
+            android:id="@+id/ib_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="5dp"
+            android:background="@null"
+            android:visibility="invisible"
+            android:src="@drawable/icon_pic_grid_type"/>
     </RelativeLayout>
     <FrameLayout
         android:id="@+id/base_content"

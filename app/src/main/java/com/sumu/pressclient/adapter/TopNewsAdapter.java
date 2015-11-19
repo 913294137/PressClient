@@ -1,6 +1,7 @@
 package com.sumu.pressclient.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.ImageView;
 
 import com.lidroid.xutils.BitmapUtils;
 import com.sumu.pressclient.R;
+import com.sumu.pressclient.activity.MewsDetailActivity;
 import com.sumu.pressclient.bean.TopNewsData;
 
 import java.util.List;
@@ -48,9 +50,17 @@ public class TopNewsAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         ImageView imageView=new ImageView(context);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);// 基于控件大小填充图片
-        TopNewsData topNewsData=topNewsDatas.get(position);
+        final TopNewsData topNewsData=topNewsDatas.get(position);
         bitmapUtils.display(imageView,topNewsData.getTopimage());// 传递imagView对象和图片地址
         container.addView(imageView);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(context, MewsDetailActivity.class);
+                intent.putExtra("url",topNewsData.getUrl());
+                context.startActivity(intent);
+            }
+        });
         return imageView;
     }
 
