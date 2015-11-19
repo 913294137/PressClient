@@ -11,6 +11,7 @@ import com.lidroid.xutils.BitmapUtils;
 import com.sumu.pressclient.Contants;
 import com.sumu.pressclient.R;
 import com.sumu.pressclient.bean.PhotoInfo;
+import com.sumu.pressclient.utils.bitmap.MyBitmapUtils;
 
 import java.util.List;
 
@@ -28,12 +29,14 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
     private List<PhotoInfo> photosInfos;
     private BitmapUtils bitmapUtils;
     private Context context;
+    private MyBitmapUtils myBitmapUtils;
     public PhotosAdapter(Context context,List<PhotoInfo> photosInfos) {
         this.photosInfos = photosInfos;
         this.context=context;
         bitmapUtils=new BitmapUtils(context);
         bitmapUtils.configDefaultLoadingImage(R.drawable.pic_item_list_default);
         bitmapUtils.configDefaultLoadFailedImage(R.drawable.pic_item_list_default);
+        myBitmapUtils=new MyBitmapUtils();
     }
 
 
@@ -48,7 +51,8 @@ public class PhotosAdapter extends RecyclerView.Adapter<PhotosAdapter.ViewHolder
     public void onBindViewHolder(PhotosAdapter.ViewHolder holder, int position) {
         PhotoInfo photoInfo=photosInfos.get(position);
         holder.tvTitle.setText(photoInfo.getTitle());
-        bitmapUtils.display(holder.ivPic, Contants.SERVER_URL +photoInfo.getListimage());
+        //bitmapUtils.display(holder.ivPic, Contants.SERVER_URL +photoInfo.getListimage());
+        myBitmapUtils.display(holder.ivPic, Contants.SERVER_URL + photoInfo.getListimage());
     }
 
     @Override
