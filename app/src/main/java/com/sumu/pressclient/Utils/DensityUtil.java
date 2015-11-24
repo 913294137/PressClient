@@ -20,7 +20,7 @@ public class DensityUtil {
      */
     public static int dip2px(Context context, float dpValue) {
         final float scale = context.getResources().getDisplayMetrics().density;
-        return (int) (dpValue * scale + 0.5f);
+        return (int) (dpValue * scale + 0.5f);//加上0.5f 为了四舍五入
     }
 
     /**

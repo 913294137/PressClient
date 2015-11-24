@@ -65,7 +65,7 @@ public class TabDetailPager extends BaseMenuDetailPager {
     private String url;
     private String moreUrl;
     private Handler mHandler;
-    private boolean isFirst=true;//是否是第一次加载，以防轮播条自动滑动速度叠加
+    private boolean isFirst = true;//是否是第一次加载，以防轮播条自动滑动速度叠加
 
     public TabDetailPager(Activity activity, NewsTabData newsTabData) {
         super(activity);
@@ -85,18 +85,18 @@ public class TabDetailPager extends BaseMenuDetailPager {
         lvNewsDetails.setOnRefreshListener(new RefreshListView.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                String result=CacehUtils.getCache(mActivity,url,"");
-                if (!TextUtils.isEmpty(result)){
-                    parseData(result,true);
+                String result = CacehUtils.getCache(mActivity, url, "");
+                if (!TextUtils.isEmpty(result)) {
+                    parseData(result, true);
                 }
                 getDataFromServer();
             }
 
             @Override
             public void onLoadMore() {
-                String result=CacehUtils.getCache(mActivity,moreUrl,"");
-                if (!TextUtils.isEmpty(result)){
-                    parseData(result,false);
+                String result = CacehUtils.getCache(mActivity, moreUrl, "");
+                if (!TextUtils.isEmpty(result)) {
+                    parseData(result, false);
                 }
                 getMoreDataFromServer();
             }
@@ -122,14 +122,14 @@ public class TabDetailPager extends BaseMenuDetailPager {
     @Override
     public void initData() {
         url = Contants.SERVER_URL + newsTabData.getUrl();
-        String result=CacehUtils.getCache(mActivity,url,"");
-        if (!TextUtils.isEmpty(result)){
+        String result = CacehUtils.getCache(mActivity, url, "");
+        if (!TextUtils.isEmpty(result)) {
             parseData(result, true);
             System.out.println("-----读取缓存数据------>");
         }
         getDataFromServer();
-        if (isFirst){
-            isFirst=false;
+        if (isFirst) {
+            isFirst = false;
             roundBar();
         }
     }
@@ -145,7 +145,7 @@ public class TabDetailPager extends BaseMenuDetailPager {
             httpUtils.send(HttpRequest.HttpMethod.GET, moreUrl, new RequestCallBack<String>() {
                 @Override
                 public void onSuccess(ResponseInfo<String> responseInfo) {
-                    parseData(responseInfo.result,false);
+                    parseData(responseInfo.result, false);
                     lvNewsDetails.onRefreshComplete(true);
                     //将数据进行缓存
                     CacehUtils.setCache(mActivity, moreUrl, responseInfo.result);
@@ -159,8 +159,8 @@ public class TabDetailPager extends BaseMenuDetailPager {
                     lvNewsDetails.onRefreshComplete(false);
                 }
             });
-        }else {
-            Toast.makeText(mActivity,"最后一页",Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(mActivity, "最后一页", Toast.LENGTH_SHORT).show();
             lvNewsDetails.onRefreshComplete(true);
         }
     }
@@ -191,15 +191,16 @@ public class TabDetailPager extends BaseMenuDetailPager {
 
     /**
      * 解析网络数据
+     *
      * @param result
      * @param isFirst 是否是加载第一页
      */
-    private void parseData(String result,boolean isFirst) {
+    private void parseData(String result, boolean isFirst) {
         Gson gson = new Gson();
         NewsTabDetailData newsTabDetailData = gson.fromJson(result, NewsTabDetailData.class);
         //获取新闻详情数据
         newsDetailData = newsTabDetailData.getData();
-        if (isFirst){
+        if (isFirst) {
             topNewsDatas = newsDetailData.getTopnews();
             tabNewsDatas = newsDetailData.getNews();
             if (tabNewsDatas != null) {
@@ -215,7 +216,7 @@ public class TabDetailPager extends BaseMenuDetailPager {
                 topIndicator.setSnap(true);// 支持快照显示
                 topIndicator.onPageSelected(0);// 让指示器重新定位到第一个点
             }
-        }else {
+        } else {
             tabNewsDatas.addAll(newsDetailData.getNews());
             newsAdapter.notifyDataSetChanged();
         }
@@ -239,24 +240,26 @@ public class TabDetailPager extends BaseMenuDetailPager {
     }
 
     /**
-     *  自动轮播条显示
+     * 自动轮播条显示
      */
     private void roundBar() {
-        if (mHandler==null){
-            mHandler=new Handler(){
+        if (mHandler == null) {
+            mHandler = new Handler() {
                 @Override
                 public void handleMessage(Message msg) {
                     int currentItem = vpTopNews.getCurrentItem();
-                    if (currentItem!=(topNewsDatas.size()-1)){
-                        currentItem++;
-                    }else {
-                        currentItem=0;
+                    if (topNewsDatas != null) {
+                        if (currentItem != (topNewsDatas.size() - 1)) {
+                            currentItem++;
+                        } else {
+                            currentItem = 0;
+                        }
+                        vpTopNews.setCurrentItem(currentItem);
+                        mHandler.sendEmptyMessageDelayed(0, 3000);
                     }
-                    vpTopNews.setCurrentItem(currentItem);
-                    mHandler.sendEmptyMessageDelayed(0,3000);
                 }
             };
         }
-        mHandler.sendEmptyMessageDelayed(0,3000);
+        mHandler.sendEmptyMessageDelayed(0, 3000);
     }
 }
